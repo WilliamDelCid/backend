@@ -10,14 +10,6 @@ import java.util.Optional;
 public interface RolService {
 
     /**
-     * Obtiene un Rol por su nombre.
-     *
-     * @param nombreRol El nombre del Rol a buscar.
-     * @return Un objeto Optional que contiene el Rol si se encuentra, de lo contrario, un objeto Optional vacío.
-     */
-    Optional<Rol> getByNombreRol(String nombreRol);
-
-    /**
      * Obtiene un Rol por su ID.
      *
      * @param id El ID del Rol a buscar.

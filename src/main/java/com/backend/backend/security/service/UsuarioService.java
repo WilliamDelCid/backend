@@ -4,10 +4,8 @@ import com.backend.backend.security.dto.JwtDto;
 import com.backend.backend.security.dto.LoginUsuario;
 import com.backend.backend.security.dto.Mensaje;
 import com.backend.backend.security.dto.NuevoUsuario;
-import com.backend.backend.security.entity.Usuario;
 
 import java.text.ParseException;
-import java.util.Optional;
 
 /**
  * Interfaz que define los métodos para el servicio relacionado con la entidad Usuario.

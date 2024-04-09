@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Implementación del servicio para la entidad Rol.
+ */
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -16,16 +19,22 @@ public class RolServiceImpl implements RolService {
 
     private final RolRepository rolRepository;
 
-    @Override
-    public Optional<Rol> getByNombreRol(String nombreRol) {
-        return rolRepository.findByNombreRol(nombreRol);
-    }
-
+    /**
+     * Obtiene un Rol por su ID.
+     *
+     * @param id El ID del Rol a buscar.
+     * @return Un objeto Optional que contiene el Rol si se encuentra, de lo contrario, un objeto Optional vacío.
+     */
     @Override
     public Optional<Rol> getById(int id) {
         return rolRepository.findById(id);
     }
 
+    /**
+     * Guarda un Rol en la base de datos.
+     *
+     * @param rol El Rol a guardar.
+     */
     @Override
     public void save(Rol rol) {
         rolRepository.save(rol);

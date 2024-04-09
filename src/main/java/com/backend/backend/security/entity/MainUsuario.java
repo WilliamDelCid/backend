@@ -26,7 +26,13 @@ public class MainUsuario implements UserDetails {
         this.rol = rol;
     }
 
-    public static MainUsuario build(Usuario usuario){
+    /**
+     * Método estático para construir un objeto MainUsuario a partir de un objeto Usuario.
+     *
+     * @param usuario El objeto Usuario del que se creará el MainUsuario.
+     * @return Un objeto MainUsuario construido a partir del objeto Usuario dado.
+     */
+    public static MainUsuario build(Usuario usuario) {
         GrantedAuthority rol = new SimpleGrantedAuthority(usuario.getRol().getNombreRol());
         return new MainUsuario(usuario.getNombre(), usuario.getNombreUsuario(), usuario.getEmail(), usuario.getPassword(), rol);
     }
