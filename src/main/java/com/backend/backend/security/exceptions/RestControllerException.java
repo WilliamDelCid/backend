@@ -18,15 +18,30 @@ import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manejador de excepciones globales para el controlador REST.
+ */
 @RestControllerAdvice
 public class RestControllerException {
 
+    /**
+     * Maneja excepciones genéricas.
+     *
+     * @param e La excepción que se produjo.
+     * @return ResponseEntity que contiene un mensaje de error interno del servidor.
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Mensaje> handleException(Exception e){
         return ResponseEntity.internalServerError()
                 .body(new Mensaje(e.getMessage()));
     }
 
+    /**
+     * Maneja excepciones personalizadas.
+     *
+     * @param e La excepción personalizada que se produjo.
+     * @return ResponseEntity que contiene un mensaje de error personalizado.
+     */
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<Mensaje> handleCustomException(CustomException e){
 
@@ -34,38 +49,61 @@ public class RestControllerException {
                 .body(new Mensaje(e.getMessage()));
     }
 
-
+    /**
+     * Maneja excepciones de credenciales no válidas.
+     *
+     * @param e La excepción de credenciales no válidas que se produjo.
+     * @return ResponseEntity que contiene un mensaje de error de "no encontrado" con estado HTTP 404.
+     */
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<Mensaje> handleBadCredentialsException(BadCredentialsException e){
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new Mensaje(e.getMessage()));
     }
 
+    /**
+     * Maneja excepciones de acceso denegado.
+     *
+     * @param e La excepción de acceso denegado que se produjo.
+     * @return ResponseEntity que contiene un mensaje de error de "prohibido" con estado HTTP 403.
+     */
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Mensaje> handleAccessDeniedException(AccessDeniedException e){
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new Mensaje(e.getMessage()));
     }
 
-        @ExceptionHandler(MethodArgumentNotValidException.class)
-        public ResponseEntity<Mensaje> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-            List<String> mensajes = new ArrayList<>();
+    /**
+     * Maneja excepciones de validación de argumentos del método.
+     *
+     * @param e La excepción de validación de argumentos del método que se produjo.
+     * @return ResponseEntity que contiene un mensaje de error de "solicitud incorrecta" con estado HTTP 400.
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Mensaje> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        List<String> mensajes = new ArrayList<>();
 
-            for (ObjectError error : e.getBindingResult().getAllErrors()) {
-                if (error instanceof FieldError) {
-                    FieldError fieldError = (FieldError) error;
-                    mensajes.add(fieldError.getField() + ": " + error.getDefaultMessage());
-                } else {
-                    mensajes.add(error.getDefaultMessage());
-                }
+        for (ObjectError error : e.getBindingResult().getAllErrors()) {
+            if (error instanceof FieldError) {
+                FieldError fieldError = (FieldError) error;
+                mensajes.add(fieldError.getField() + ": " + error.getDefaultMessage());
+            } else {
+                mensajes.add(error.getDefaultMessage());
             }
-
-            String mensajeConcatenado = String.join(",", mensajes);
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new Mensaje(mensajeConcatenado));
         }
 
+        String mensajeConcatenado = String.join(",", mensajes);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new Mensaje(mensajeConcatenado));
+    }
+
+    /**
+     * Maneja excepciones relacionadas con JWT.
+     *
+     * @param e La excepción JWT que se produjo.
+     * @return ResponseEntity que contiene un mensaje de error de "prohibido" con estado HTTP 403.
+     */
     @ExceptionHandler(value = {MalformedJwtException.class, UnsupportedJwtException.class, IllegalArgumentException.class, SignatureException.class})
     public ResponseEntity<Mensaje> jwtException(JwtException e){
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
