@@ -1,5 +1,10 @@
 package com.backend.backend.security.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class JwtDto {
     private String token;
 
@@ -10,13 +15,7 @@ public class JwtDto {
         this.token = token;
     }
 
-    public String getToken() {
-        return token;
-    }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
 
 
 }
