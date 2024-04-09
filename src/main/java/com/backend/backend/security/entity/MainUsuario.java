@@ -11,12 +11,12 @@ import java.util.Collections;
 public class MainUsuario implements UserDetails {
 
     @Getter
-    private String nombre;
-    private String nombreUsuario;
+    private final String nombre;
+    private final String nombreUsuario;
     @Getter
-    private String email;
-    private String password;
-    private GrantedAuthority rol;
+    private final String email;
+    private final String password;
+    private final GrantedAuthority rol;
 
     public MainUsuario(String nombre, String nombreUsuario, String email, String password, GrantedAuthority rol) {
         this.nombre = nombre;
@@ -66,11 +66,5 @@ public class MainUsuario implements UserDetails {
         return true;
     }
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
 
-    public String getEmail() {
-        return email;
-    }
 }

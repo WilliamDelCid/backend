@@ -30,13 +30,9 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final AuthenticationManager authenticationManager;
-
     private final RolService rolService;
-
     private final JwtProvider jwtProvider;
 
     @Override
@@ -85,12 +81,8 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new CustomException(HttpStatus.BAD_REQUEST, "ese nombre de usuario ya existe");
         if (usuarioRepository.existsByEmail(nuevoUsuario.getEmail()))
             throw new CustomException(HttpStatus.BAD_REQUEST, "ese email de usuario ya existe");
-
-        // Buscar el rol por su ID
         Optional<Rol> rolOptional = rolService.getById(nuevoUsuario.getRolId());
         Rol rolUsuario = rolOptional.orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "No se encontró el rol con el ID proporcionado"));
-
-        // Crear el usuario con el rol asignado
         Usuario usuario = new Usuario(
                 nuevoUsuario.getNombre(),
                 nuevoUsuario.getNombreUsuario(),
@@ -98,10 +90,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 passwordEncoder.encode(nuevoUsuario.getPassword())
         );
         usuario.setRol(rolUsuario);
-
-        // Guardar el usuario en la base de datos
         usuarioRepository.save(usuario);
-
         return new Mensaje(usuario.getNombreUsuario() + " ha sido creado");
     }
 
