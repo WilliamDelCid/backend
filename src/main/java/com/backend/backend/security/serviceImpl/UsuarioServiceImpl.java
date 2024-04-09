@@ -35,20 +35,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final RolService rolService;
     private final JwtProvider jwtProvider;
 
-    @Override
-    public Optional<Usuario> getByNombreUsuario(String nombreUsuario) {
-        return usuarioRepository.findByNombreUsuario(nombreUsuario);
-    }
-
-    @Override
-    public Optional<Usuario> getByNombreUsuarioOrEmail(String nombreOrEmail) {
-        return usuarioRepository.findByNombreUsuarioOrEmail(nombreOrEmail, nombreOrEmail);
-    }
-
-    @Override
-    public Optional<Usuario> getByTokenPassword(String tokenPassword) {
-        return usuarioRepository.findByTokenPassword(tokenPassword);
-    }
 
     @Override
     public boolean existsByNombreUsuario(String nombreUsuario) {
@@ -77,9 +63,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Mensaje save(NuevoUsuario nuevoUsuario) {
-        if (usuarioRepository.existsByNombreUsuario(nuevoUsuario.getNombreUsuario()))
+        if (existsByNombreUsuario(nuevoUsuario.getNombreUsuario()))
             throw new CustomException(HttpStatus.BAD_REQUEST, "ese nombre de usuario ya existe");
-        if (usuarioRepository.existsByEmail(nuevoUsuario.getEmail()))
+        if (existsByEmail(nuevoUsuario.getEmail()))
             throw new CustomException(HttpStatus.BAD_REQUEST, "ese email de usuario ya existe");
         Optional<Rol> rolOptional = rolService.getById(nuevoUsuario.getRolId());
         Rol rolUsuario = rolOptional.orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "No se encontró el rol con el ID proporcionado"));

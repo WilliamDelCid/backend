@@ -12,6 +12,7 @@ public class NuevoUsuario {
 
     private String nombre;
 
+    @NotBlank(message = "nombre vacio")
     private String nombreUsuario;
 
     @Email(message = "dirección de email no válida")
