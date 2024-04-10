@@ -36,7 +36,7 @@ public class InventarioServiceImpl implements InventarioService {
             inventarioRepository.save(inventario);
             return new Mensaje("Inventario agregado con exito");
         } catch (Exception e) {
-            throw new CustomException(HttpStatus.CONFLICT, "Ocurrio un error al ingresar el inventario");
+            throw new CustomException(HttpStatus.CONFLICT, "Ocurrió un error al ingresar el inventario");
         }
     }
 
