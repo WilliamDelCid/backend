@@ -44,7 +44,10 @@ public class BeansConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
-
+    /**
+     * Bean para el administrador los Cors Origin.
+     *
+     */
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -56,7 +59,6 @@ public class BeansConfig {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-
         return new CorsFilter(source);
     }
 
