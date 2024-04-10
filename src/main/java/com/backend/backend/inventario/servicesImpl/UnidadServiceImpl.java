@@ -7,6 +7,7 @@ import com.backend.backend.inventario.services.UnidadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,5 +19,10 @@ public class UnidadServiceImpl implements UnidadService {
     @Override
     public Optional<Unidad> findById(Long id) {
         return unidadRepository.findById(id);
+    }
+
+    @Override
+    public List<Unidad> listAllUnidad() {
+        return unidadRepository.findAll();
     }
 }
