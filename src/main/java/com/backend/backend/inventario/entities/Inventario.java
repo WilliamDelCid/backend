@@ -27,7 +27,7 @@ public class Inventario {
     private String descripcion;
 
     @Column(nullable = false,name = "tipo_producto")
-    private boolean tipoProducto;
+    private boolean producto;
 
     @ManyToOne
     @JoinColumn(name = "id_unidad")
@@ -38,5 +38,9 @@ public class Inventario {
 
     @Column(nullable = false,name = "estado_producto")
     private boolean estadoProducto;
+
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_producto")
+    private TipoProducto tipoProducto;
 
 }

@@ -1,12 +1,14 @@
 package com.backend.backend.orden.servicesImpl;
 
+import com.backend.backend.inventario.entities.Inventario;
+import com.backend.backend.inventario.repositories.InventarioRepository;
 import com.backend.backend.orden.dto.OrdenPedidoDto;
 import com.backend.backend.orden.entities.Cliente;
 import com.backend.backend.orden.entities.OrdenPedido;
-import com.backend.backend.orden.entities.TipoProducto;
+import com.backend.backend.inventario.entities.TipoProducto;
 import com.backend.backend.orden.repositories.ClienteRepository;
 import com.backend.backend.orden.repositories.OrdenPedidoRepository;
-import com.backend.backend.orden.repositories.TipoProductoRepository;
+import com.backend.backend.inventario.repositories.TipoProductoRepository;
 import com.backend.backend.orden.services.OrdenPedidoService;
 import com.backend.backend.security.dto.Mensaje;
 import com.backend.backend.security.exceptions.CustomException;
@@ -23,8 +25,7 @@ public class OrdenPedidoServiceImpl implements OrdenPedidoService {
 
     private final OrdenPedidoRepository ordenPedidoRepository;
     private final ClienteRepository clienteRepository;
-    private final TipoProductoRepository tipoProductoRepository;
-
+    private final InventarioRepository inventarioRepository;
     @Override
     public Page<OrdenPedido> listAll(Pageable pageable) {
         return ordenPedidoRepository.findAll(pageable);
@@ -38,13 +39,12 @@ public class OrdenPedidoServiceImpl implements OrdenPedidoService {
     @Override
     public Mensaje save(OrdenPedidoDto ordenPedidoDto) {
         try {
-            // Create a new OrdenPedido entity and map properties from OrdenPedidoDto
             OrdenPedido ordenPedido = new OrdenPedido();
             Cliente cliente = clienteRepository.findById(ordenPedidoDto.idCliente()).orElseThrow(()->new CustomException(HttpStatus.CONFLICT,"No se encontro registro con ese ID"));
             ordenPedido.setCliente(cliente);
+            Inventario inventario = inventarioRepository.findById(ordenPedidoDto.idInventario()).orElseThrow(()->new CustomException(HttpStatus.CONFLICT,"No se encontro registro con ese ID"));
+            ordenPedido.setInventario(inventario);
             ordenPedido.setFechaEsperada(ordenPedidoDto.fechaEsperada());
-            TipoProducto tipoProducto = tipoProductoRepository.findById(ordenPedidoDto.idTipoProducto()).orElseThrow(()->new CustomException(HttpStatus.CONFLICT,"No se encontro registro con ese ID "));
-            ordenPedido.setTipoProducto(tipoProducto);
             ordenPedido.setCantidadProducto(ordenPedidoDto.cantidad());
             ordenPedido.setEstadoOrden(ordenPedidoDto.estado());
             ordenPedidoRepository.save(ordenPedido);

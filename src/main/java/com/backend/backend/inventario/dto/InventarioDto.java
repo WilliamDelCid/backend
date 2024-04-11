@@ -4,8 +4,9 @@ public record InventarioDto(
         Long id,
         String nombreProducto,
         String descripcion,
-        boolean tipoProducto,
+        boolean producto,
         Long unidadId,
         int cantidadProducto,
-        boolean estadoProducto) {
+        boolean estadoProducto,
+        Long idTipoProducto) {
 }

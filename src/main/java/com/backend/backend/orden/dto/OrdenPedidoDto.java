@@ -9,8 +9,8 @@ public record OrdenPedidoDto(
         Long idCliente,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDate fechaEsperada,
-        Long idTipoProducto,
         int cantidad,
-        boolean estado
+        boolean estado,
+        Long idInventario
 ) {
 }

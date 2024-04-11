@@ -1,8 +1,8 @@
-package com.backend.backend.orden.controllers;
+package com.backend.backend.inventario.controllers;
 
-import com.backend.backend.orden.dto.TipoProductoDto;
-import com.backend.backend.orden.entities.TipoProducto;
-import com.backend.backend.orden.services.TipoProductoService;
+import com.backend.backend.inventario.dto.TipoProductoDto;
+import com.backend.backend.inventario.entities.TipoProducto;
+import com.backend.backend.inventario.services.TipoProductoService;
 import com.backend.backend.security.dto.Mensaje;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

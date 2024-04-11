@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -26,10 +26,10 @@ public class Produccion {
     private OrdenPedido ordenPedido;
 
     @Column(nullable = false,name = "fecha_ingreso")
-    private Date fechaIngreso;
+    private LocalDate fechaIngreso;
 
     @Column(nullable = false,name = "fecha_finalizacion")
-    private Date fechaFinalizacion;
+    private LocalDate fechaFinalizacion;
 
     @Column(nullable = false,name = "linea_produccion")
     private boolean lineaProduccion;

@@ -1,7 +1,7 @@
-package com.backend.backend.orden.services;
+package com.backend.backend.inventario.services;
 
-import com.backend.backend.orden.dto.TipoProductoDto;
-import com.backend.backend.orden.entities.TipoProducto;
+import com.backend.backend.inventario.dto.TipoProductoDto;
+import com.backend.backend.inventario.entities.TipoProducto;
 import com.backend.backend.security.dto.Mensaje;
 
 import java.util.List;

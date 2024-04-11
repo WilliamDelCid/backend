@@ -1,4 +1,4 @@
-package com.backend.backend.orden.entities;
+package com.backend.backend.inventario.entities;
 
 
 import jakarta.persistence.*;

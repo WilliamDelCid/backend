@@ -1,9 +1,9 @@
-package com.backend.backend.orden.servicesImpl;
+package com.backend.backend.inventario.servicesImpl;
 
-import com.backend.backend.orden.dto.TipoProductoDto;
-import com.backend.backend.orden.entities.TipoProducto;
-import com.backend.backend.orden.repositories.TipoProductoRepository;
-import com.backend.backend.orden.services.TipoProductoService;
+import com.backend.backend.inventario.dto.TipoProductoDto;
+import com.backend.backend.inventario.entities.TipoProducto;
+import com.backend.backend.inventario.repositories.TipoProductoRepository;
+import com.backend.backend.inventario.services.TipoProductoService;
 import com.backend.backend.security.dto.Mensaje;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

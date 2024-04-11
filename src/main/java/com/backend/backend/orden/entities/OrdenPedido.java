@@ -1,6 +1,8 @@
 package com.backend.backend.orden.entities;
 
 
+import com.backend.backend.inventario.entities.Inventario;
+import com.backend.backend.inventario.entities.TipoProducto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 
 @Getter
@@ -31,15 +32,15 @@ public class OrdenPedido {
     @Column(nullable = false,name = "fecha_esperada")
     private LocalDate fechaEsperada;
 
-    @ManyToOne
-    @JoinColumn(name = "id_tipo_producto")
-    private TipoProducto tipoProducto;
-
-
     @Column(nullable = false,name = "cantidad_producto")
     private int cantidadProducto;
 
     @Column(nullable = false,name = "estado_orden")
     private boolean estadoOrden;
+
+    @ManyToOne
+    @JoinColumn(name = "id_inventario")
+    private Inventario inventario;
+
 
 }

@@ -2,8 +2,10 @@ package com.backend.backend.inventario.servicesImpl;
 
 import com.backend.backend.inventario.dto.InventarioDto;
 import com.backend.backend.inventario.entities.Inventario;
+import com.backend.backend.inventario.entities.TipoProducto;
 import com.backend.backend.inventario.entities.Unidad;
 import com.backend.backend.inventario.repositories.InventarioRepository;
+import com.backend.backend.inventario.repositories.TipoProductoRepository;
 import com.backend.backend.inventario.services.InventarioService;
 import com.backend.backend.inventario.services.UnidadService;
 import com.backend.backend.security.dto.Mensaje;
@@ -21,6 +23,7 @@ public class InventarioServiceImpl implements InventarioService {
 
     private final InventarioRepository inventarioRepository;
     private final UnidadService unidadService;
+    private final TipoProductoRepository tipoProductoRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -69,7 +72,9 @@ public class InventarioServiceImpl implements InventarioService {
         inventario.setCantidadProducto(itemDTO.cantidadProducto());
         inventario.setEstadoProducto(itemDTO.estadoProducto());
         inventario.setNombreProducto(itemDTO.nombreProducto());
-        inventario.setTipoProducto(itemDTO.tipoProducto());
+        inventario.setProducto(itemDTO.producto());
+        TipoProducto tipoProducto = tipoProductoRepository.findById(itemDTO.idTipoProducto()).orElseThrow(()->new CustomException(HttpStatus.CONFLICT,"No se encontro registro con ese ID "));
+        inventario.setTipoProducto(tipoProducto);
         Unidad unidad = unidadService.findById(itemDTO.unidadId()).orElseThrow(()->new CustomException(HttpStatus.CONFLICT,"La unidad solicitada no existe"));
         inventario.setUnidad(unidad);
         return inventario;
