@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Date;
+
 
 @Getter
 @Setter
@@ -27,7 +29,7 @@ public class OrdenPedido {
     private Cliente cliente;
 
     @Column(nullable = false,name = "fecha_esperada")
-    private Date fechaEsperada;
+    private LocalDate fechaEsperada;
 
     @ManyToOne
     @JoinColumn(name = "id_tipo_producto")
