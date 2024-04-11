@@ -8,6 +8,8 @@ import com.backend.backend.inventario.repositories.InventarioRepository;
 import com.backend.backend.inventario.repositories.TipoProductoRepository;
 import com.backend.backend.inventario.services.InventarioService;
 import com.backend.backend.inventario.services.UnidadService;
+import com.backend.backend.orden.repositories.DetalleMateriaPrimaRepository;
+import com.backend.backend.orden.repositories.OrdenPedidoRepository;
 import com.backend.backend.security.dto.Mensaje;
 import com.backend.backend.security.exceptions.CustomException;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,8 @@ public class InventarioServiceImpl implements InventarioService {
     private final InventarioRepository inventarioRepository;
     private final UnidadService unidadService;
     private final TipoProductoRepository tipoProductoRepository;
+    private final DetalleMateriaPrimaRepository detalleMateriaPrimaRepository;
+    private final OrdenPedidoRepository ordenPedidoRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -58,9 +62,20 @@ public class InventarioServiceImpl implements InventarioService {
     @Override
     @Transactional
     public Mensaje eliminar(Long id) {
-        return inventarioRepository.findById(id).map(inventario -> {
-            inventario.setEstadoProducto(false);
-            inventarioRepository.save(inventario);
+        return inventarioRepository.findById(id).map(inventarioBase -> {
+            Inventario inventario = inventarioRepository.findById(id).orElse(null);
+            if (inventario == null) {
+                throw new RuntimeException("El producto de inventario no existe");
+            }
+            if (detalleMateriaPrimaRepository.countByInventario(inventario) > 0) {
+                throw new CustomException(HttpStatus.CONFLICT,"No se puede eliminar el producto de inventario porque está asociado a registros en DetalleMateriaPrima");
+            }
+
+            if (ordenPedidoRepository.countByInventario(inventario) > 0) {
+                throw new CustomException(HttpStatus.CONFLICT,"No se puede eliminar el producto de inventario porque está asociado a registros en OrdenPedido");
+            }
+            inventarioBase.setEstadoProducto(false);
+            inventarioRepository.save(inventarioBase);
             return new Mensaje("Inventario eliminado con éxito.");
         }).orElseThrow(()->new CustomException(HttpStatus.CONFLICT, "No se encontró el item con id: " + id));
     }

@@ -20,8 +20,7 @@ public class OrdenPedidoController {
 
     @PostMapping("/crear")
     public ResponseEntity<Mensaje> crearOrden(@RequestBody OrdenPedidoDto ordenPedidoDto) {
-        Mensaje mensaje = ordenPedidoService.save(ordenPedidoDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(mensaje);
+        return ResponseEntity.ok(ordenPedidoService.save(ordenPedidoDto));
     }
 
     @GetMapping("/listar")
