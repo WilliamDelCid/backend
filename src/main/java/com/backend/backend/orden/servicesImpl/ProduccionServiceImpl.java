@@ -48,6 +48,10 @@ public class ProduccionServiceImpl implements ProduccionService {
     public Mensaje finalizarProduccion(Long id, ProduccionFinalizadaDto produccionFinalizadaDto) {
         Produccion produccion = produccionRepository.findById(id)
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "No se encontró producción con ese ID"));
+
+        if (produccion.isEstadoProduccion() || produccion.getFechaFinalizacion() != null) {
+            throw new CustomException(HttpStatus.BAD_REQUEST, "La producción ya ha sido finalizada anteriormente.");
+        }
         produccion.setFechaFinalizacion(produccionFinalizadaDto.fechaFinalizacion());
         produccion.setEstadoProduccion(true);
         OrdenPedido ordenPedido = produccion.getOrdenPedido();
@@ -60,6 +64,7 @@ public class ProduccionServiceImpl implements ProduccionService {
         produccionRepository.save(produccion);
         return new Mensaje("Producción finalizada con éxito.");
     }
+
 
 
 }
