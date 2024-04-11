@@ -10,7 +10,7 @@ public record OrdenPedidoDto(
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDate fechaEsperada,
         int cantidad,
-        boolean estado,
+        int estado,
         Long idInventario
 ) {
 }

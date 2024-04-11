@@ -36,7 +36,7 @@ public class OrdenPedido {
     private int cantidadProducto;
 
     @Column(nullable = false,name = "estado_orden")
-    private boolean estadoOrden;
+    private int estadoOrden;
 
     @ManyToOne
     @JoinColumn(name = "id_inventario")
