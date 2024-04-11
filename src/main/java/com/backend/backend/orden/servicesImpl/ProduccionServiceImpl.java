@@ -1,7 +1,10 @@
 package com.backend.backend.orden.servicesImpl;
 
 
+import com.backend.backend.inventario.entities.Inventario;
+import com.backend.backend.inventario.repositories.InventarioRepository;
 import com.backend.backend.orden.dto.ProduccionDto;
+import com.backend.backend.orden.dto.ProduccionFinalizadaDto;
 import com.backend.backend.orden.entities.OrdenPedido;
 import com.backend.backend.orden.entities.Produccion;
 import com.backend.backend.orden.repositories.OrdenPedidoRepository;
@@ -21,6 +24,7 @@ public class ProduccionServiceImpl implements ProduccionService {
 
     private final ProduccionRepository produccionRepository;
     private final OrdenPedidoRepository ordenPedidoRepository;
+    private final InventarioRepository inventarioRepository;
 
     @Override
     public Page<Produccion> listAll(Pageable pageable) {
@@ -34,12 +38,28 @@ public class ProduccionServiceImpl implements ProduccionService {
                     .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Order no encontrada"));
             produccion.setOrdenPedido(ordenPedido);
             produccion.setFechaIngreso(produccionDto.fechaIngreso());
-            produccion.setFechaFinalizacion(produccionDto.fechaFinalizacion());
             produccion.setLineaProduccion(produccionDto.lineaProduccion());
             produccion.setEstadoProduccion(produccionDto.estadoProduccion());
             produccionRepository.save(produccion);
             return new Mensaje("Produccion guardada con exito.");
-
     }
+
+    @Override
+    public Mensaje finalizarProduccion(Long id, ProduccionFinalizadaDto produccionFinalizadaDto) {
+        Produccion produccion = produccionRepository.findById(id)
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "No se encontró producción con ese ID"));
+        produccion.setFechaFinalizacion(produccionFinalizadaDto.fechaFinalizacion());
+        produccion.setEstadoProduccion(true);
+        OrdenPedido ordenPedido = produccion.getOrdenPedido();
+        Inventario inventario = ordenPedido.getInventario();
+        int cantidadSumar = ordenPedido.getCantidadProducto();
+        int cantidadExistente = inventario.getCantidadProducto();
+        int nuevoValorInventario = cantidadExistente + cantidadSumar;
+        inventario.setCantidadProducto(nuevoValorInventario);
+        inventarioRepository.save(inventario);
+        produccionRepository.save(produccion);
+        return new Mensaje("Producción finalizada con éxito.");
+    }
+
 
 }

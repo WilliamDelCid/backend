@@ -1,6 +1,7 @@
 package com.backend.backend.orden.controllers;
 
 import com.backend.backend.orden.dto.ProduccionDto;
+import com.backend.backend.orden.dto.ProduccionFinalizadaDto;
 import com.backend.backend.orden.entities.Produccion;
 import com.backend.backend.orden.services.ProduccionService;
 import com.backend.backend.security.dto.Mensaje;
@@ -29,4 +30,10 @@ public class ProduccionController {
         Page<Produccion> producciones = produccionService.listAll(pageable);
         return ResponseEntity.ok(producciones);
     }
+
+    @PutMapping("/{id}/finalizar")
+    public Mensaje finalizarProduccion(@PathVariable Long id, @RequestBody ProduccionFinalizadaDto produccionFinalizadaDto) {
+        return produccionService.finalizarProduccion(id, produccionFinalizadaDto);
+    }
+
 }

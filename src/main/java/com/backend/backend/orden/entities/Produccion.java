@@ -28,7 +28,7 @@ public class Produccion {
     @Column(nullable = false,name = "fecha_ingreso")
     private LocalDate fechaIngreso;
 
-    @Column(nullable = false,name = "fecha_finalizacion")
+    @Column(name = "fecha_finalizacion")
     private LocalDate fechaFinalizacion;
 
     @Column(nullable = false,name = "linea_produccion")

@@ -4,12 +4,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-public record ProduccionDto(
-        Long idOrdenPedido,
+public record ProduccionFinalizadaDto(
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        LocalDate fechaIngreso,
-
-        boolean lineaProduccion,
-        boolean estadoProduccion
+        LocalDate fechaFinalizacion
 ) {
 }
