@@ -32,7 +32,7 @@ public class InventarioServiceImpl implements InventarioService {
     @Override
     @Transactional(readOnly = true)
     public Page<Inventario> listar(Pageable pageable) {
-        return inventarioRepository.findAll(pageable);
+        return inventarioRepository.findAllActive(pageable);
     }
 
     @Override
@@ -45,6 +45,11 @@ public class InventarioServiceImpl implements InventarioService {
         } catch (Exception e) {
             throw new CustomException(HttpStatus.CONFLICT, "Ocurrió un error al ingresar el inventario");
         }
+    }
+
+    @Override
+    public Inventario buscar(Long id) {
+        return inventarioRepository.findById(id).orElseThrow(()->new CustomException(HttpStatus.NOT_FOUND, "No se encontro inventario con ese ID"));
     }
 
     @Override
@@ -85,12 +90,12 @@ public class InventarioServiceImpl implements InventarioService {
         Inventario inventario = new Inventario();
         inventario.setDescripcion(itemDTO.descripcion());
         inventario.setCantidadProducto(itemDTO.cantidadProducto());
-        inventario.setEstadoProducto(itemDTO.estadoProducto());
+        inventario.setEstadoProducto(true);
         inventario.setNombreProducto(itemDTO.nombreProducto());
         inventario.setProducto(itemDTO.producto());
-        TipoProducto tipoProducto = tipoProductoRepository.findById(itemDTO.idTipoProducto()).orElseThrow(()->new CustomException(HttpStatus.CONFLICT,"No se encontro registro con ese ID "));
+        TipoProducto tipoProducto = tipoProductoRepository.findById(itemDTO.tipoProducto()).orElseThrow(()->new CustomException(HttpStatus.CONFLICT,"No se encontro registro con ese ID "));
         inventario.setTipoProducto(tipoProducto);
-        Unidad unidad = unidadService.findById(itemDTO.unidadId()).orElseThrow(()->new CustomException(HttpStatus.CONFLICT,"La unidad solicitada no existe"));
+        Unidad unidad = unidadService.findById(itemDTO.unidad()).orElseThrow(()->new CustomException(HttpStatus.CONFLICT,"La unidad solicitada no existe"));
         inventario.setUnidad(unidad);
         return inventario;
     }

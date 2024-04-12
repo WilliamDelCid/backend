@@ -12,6 +12,8 @@ public interface InventarioService {
 
     Mensaje agregar(InventarioDto itemDTO);
 
+    Inventario buscar(Long id);
+
     Mensaje editar(Long id, InventarioDto itemDTO);
 
     Mensaje eliminar(Long id);

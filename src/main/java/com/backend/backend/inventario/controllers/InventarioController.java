@@ -38,6 +38,11 @@ public class InventarioController {
         return new ResponseEntity<>(inventarioService.agregar(inventarioDto), HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Inventario> buscar(@PathVariable Long id) {
+        return new ResponseEntity<>(inventarioService.buscar(id), HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Mensaje> editar(@PathVariable Long id, @RequestBody InventarioDto inventarioDto) {
         return new ResponseEntity<>(inventarioService.editar(id, inventarioDto), HttpStatus.OK);

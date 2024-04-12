@@ -73,9 +73,9 @@ Disponible]]></text>
 				</textElement>
 				<text><![CDATA[Reporte de Inventario]]></text>
 			</staticText>
-			<textField pattern="MMMMM dd, yyyy">
+			<textField pattern="dd 'de' MMMM 'de' yyyy">
 				<reportElement x="480" y="0" width="92" height="30" uuid="f26150ea-488a-4073-a670-3b27cbd5a3ec"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new java.util.Locale("es")).format(new java.util.Date())]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
