@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface InventarioService {
 
-    Page<Inventario> listar(Pageable pageable);
+    Page<Inventario> listar(String nombreProducto,Pageable pageable);
 
     Mensaje agregar(InventarioDto itemDTO);
 

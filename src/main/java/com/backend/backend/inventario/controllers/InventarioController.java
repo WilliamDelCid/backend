@@ -29,8 +29,8 @@ public class InventarioController {
     private final PdfUtils pdfUtils;
 
     @GetMapping
-    public ResponseEntity<Page<Inventario>> listar(Pageable pageable) {
-        return new ResponseEntity<>(inventarioService.listar(pageable), HttpStatus.OK);
+    public ResponseEntity<Page<Inventario>> listar(@RequestParam(name = "nombreProducto", required = false) String nombreProducto,Pageable pageable) {
+        return new ResponseEntity<>(inventarioService.listar(nombreProducto,pageable), HttpStatus.OK);
     }
 
     @PostMapping

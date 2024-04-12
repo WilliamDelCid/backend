@@ -31,8 +31,8 @@ public class InventarioServiceImpl implements InventarioService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Inventario> listar(Pageable pageable) {
-        return inventarioRepository.findAllActive(pageable);
+    public Page<Inventario> listar(String nombreProducto,Pageable pageable) {
+        return inventarioRepository.findAllActive(nombreProducto,pageable);
     }
 
     @Override
