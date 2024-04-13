@@ -19,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class InventarioServiceImpl implements InventarioService {
@@ -58,7 +60,6 @@ public class InventarioServiceImpl implements InventarioService {
         return inventarioRepository.findById(id).map(inventario -> {
             inventario.setDescripcion(itemDTO.descripcion());
             inventario.setCantidadProducto(itemDTO.cantidadProducto());
-            inventario.setEstadoProducto(itemDTO.estadoProducto());
             inventarioRepository.save(inventario);
             return new Mensaje("Item editado con éxito.");
         }).orElseThrow(()->new CustomException(HttpStatus.CONFLICT, "El inventario con id: "+id+ " No fue encontrado" ));
@@ -83,6 +84,11 @@ public class InventarioServiceImpl implements InventarioService {
             inventarioRepository.save(inventarioBase);
             return new Mensaje("Inventario eliminado con éxito.");
         }).orElseThrow(()->new CustomException(HttpStatus.CONFLICT, "No se encontró el item con id: " + id));
+    }
+
+    @Override
+    public List<Inventario> listTipo(Long idTipoProducto) {
+        return inventarioRepository.findByTipoProductoIdAndProductoIsTrue(idTipoProducto);
     }
 
 

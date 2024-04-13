@@ -6,6 +6,8 @@ import com.backend.backend.security.dto.Mensaje;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface InventarioService {
 
     Page<Inventario> listar(String nombreProducto,Pageable pageable);
@@ -17,4 +19,7 @@ public interface InventarioService {
     Mensaje editar(Long id, InventarioDto itemDTO);
 
     Mensaje eliminar(Long id);
+
+    List<Inventario> listTipo(Long idTipoProducto);
+
 }

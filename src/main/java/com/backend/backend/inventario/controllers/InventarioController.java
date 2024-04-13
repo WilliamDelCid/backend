@@ -37,7 +37,10 @@ public class InventarioController {
     public ResponseEntity<Mensaje> agregar(@RequestBody InventarioDto inventarioDto) {
         return new ResponseEntity<>(inventarioService.agregar(inventarioDto), HttpStatus.CREATED);
     }
-
+    @GetMapping("/tipo/{idTipoProducto}")
+    public List<Inventario> obtenerInventarioPorTipoProductoId(@PathVariable Long idTipoProducto) {
+        return inventarioService.listTipo(idTipoProducto);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Inventario> buscar(@PathVariable Long id) {
         return new ResponseEntity<>(inventarioService.buscar(id), HttpStatus.OK);
