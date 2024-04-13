@@ -11,7 +11,6 @@ public record OrdenPedidoDto(
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDate fechaEsperada,
         int cantidad,
-        int estado,
         Long idInventario,
         List<DetalleMateriaPrimaDto> detallesMateriaPrima
 ) {

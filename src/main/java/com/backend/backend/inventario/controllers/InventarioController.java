@@ -41,6 +41,11 @@ public class InventarioController {
     public List<Inventario> obtenerInventarioPorTipoProductoId(@PathVariable Long idTipoProducto) {
         return inventarioService.listTipo(idTipoProducto);
     }
+
+    @GetMapping("/all")
+    public List<Inventario> obtenerAll() {
+        return inventarioService.listAll();
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Inventario> buscar(@PathVariable Long id) {
         return new ResponseEntity<>(inventarioService.buscar(id), HttpStatus.OK);

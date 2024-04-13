@@ -62,7 +62,7 @@ public class OrdenPedidoServiceImpl implements OrdenPedidoService {
         ordenPedido.setInventario(inventarioEncontrado);
         ordenPedido.setFechaEsperada(ordenPedidoDto.fechaEsperada());
         ordenPedido.setCantidadProducto(ordenPedidoDto.cantidad());
-        ordenPedido.setEstadoOrden(ordenPedidoDto.estado());
+        ordenPedido.setEstadoOrden(0);
 
         if (!verificarDisponibilidadInventario(ordenPedidoDto)) {
             throw new CustomException(HttpStatus.CONFLICT, "La cantidad solicitada de materia prima excede la disponibilidad en inventario");

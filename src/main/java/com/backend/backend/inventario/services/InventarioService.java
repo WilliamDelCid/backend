@@ -22,4 +22,6 @@ public interface InventarioService {
 
     List<Inventario> listTipo(Long idTipoProducto);
 
+    List<Inventario> listAll();
+
 }

@@ -91,6 +91,11 @@ public class InventarioServiceImpl implements InventarioService {
         return inventarioRepository.findByTipoProductoIdAndProductoIsTrue(idTipoProducto);
     }
 
+    @Override
+    public List<Inventario> listAll() {
+        return inventarioRepository.findByEstadoProductoTrue();
+    }
+
 
     private Inventario convertirAEntidad(InventarioDto itemDTO) {
         Inventario inventario = new Inventario();
