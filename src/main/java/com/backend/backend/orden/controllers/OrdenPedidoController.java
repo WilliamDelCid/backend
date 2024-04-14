@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/ordenes")
 @RequiredArgsConstructor
@@ -26,6 +28,11 @@ public class OrdenPedidoController {
     @GetMapping("/listar")
     public ResponseEntity<Page<OrdenPedido>> listarOrdenes(Pageable pageable) {
         Page<OrdenPedido> ordenes = ordenPedidoService.listAll(pageable);
+        return ResponseEntity.ok(ordenes);
+    }
+    @GetMapping("/listar-all")
+    public ResponseEntity<List<OrdenPedido>> listarOrdenes() {
+        List<OrdenPedido> ordenes = ordenPedidoService.listAll();
         return ResponseEntity.ok(ordenes);
     }
 }
