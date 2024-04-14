@@ -1,5 +1,6 @@
 package com.backend.backend.inventario.services;
 
+import com.backend.backend.inventario.dto.ConsultaInventarioDto;
 import com.backend.backend.inventario.dto.InventarioDto;
 import com.backend.backend.inventario.entities.Inventario;
 import com.backend.backend.security.dto.Mensaje;
@@ -23,5 +24,7 @@ public interface InventarioService {
     List<Inventario> listTipo(Long idTipoProducto);
 
     List<Inventario> listAll();
+
+    List<ConsultaInventarioDto> listTipoProducto(Long idTipoProducto);
 
 }

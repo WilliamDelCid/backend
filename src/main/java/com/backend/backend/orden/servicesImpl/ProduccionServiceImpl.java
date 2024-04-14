@@ -3,6 +3,7 @@ package com.backend.backend.orden.servicesImpl;
 
 import com.backend.backend.inventario.entities.Inventario;
 import com.backend.backend.inventario.repositories.InventarioRepository;
+import com.backend.backend.orden.dto.ConsultaOrdenesDto;
 import com.backend.backend.orden.dto.ProduccionDto;
 import com.backend.backend.orden.dto.ProduccionFinalizadaDto;
 import com.backend.backend.orden.entities.OrdenPedido;
@@ -17,6 +18,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -65,6 +69,10 @@ public class ProduccionServiceImpl implements ProduccionService {
         return new Mensaje("Producción finalizada con éxito.");
     }
 
+    @Override
+    public List<ConsultaOrdenesDto> listEstadoFechaEspera(Integer estado, Date fechaEsperada) {
+        return produccionRepository.findByEstadoAndFechaEsperada(estado, fechaEsperada);
+    }
 
 
 }

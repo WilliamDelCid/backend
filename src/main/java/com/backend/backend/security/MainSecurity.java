@@ -55,7 +55,7 @@ public class MainSecurity {
         http.cors(Customizer.withDefaults());
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll()
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**","/swagger-ui/**","/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated());
         http.exceptionHandling(exc -> exc.authenticationEntryPoint(jwtEntryPoint));
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);

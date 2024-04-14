@@ -1,5 +1,6 @@
 package com.backend.backend.inventario.servicesImpl;
 
+import com.backend.backend.inventario.dto.ConsultaInventarioDto;
 import com.backend.backend.inventario.dto.InventarioDto;
 import com.backend.backend.inventario.entities.Inventario;
 import com.backend.backend.inventario.entities.TipoProducto;
@@ -94,6 +95,11 @@ public class InventarioServiceImpl implements InventarioService {
     @Override
     public List<Inventario> listAll() {
         return inventarioRepository.findByEstadoProductoTrue();
+    }
+
+    @Override
+    public List<ConsultaInventarioDto> listTipoProducto(Long idTipoProducto) {
+        return inventarioRepository.listAll(idTipoProducto);
     }
 
 

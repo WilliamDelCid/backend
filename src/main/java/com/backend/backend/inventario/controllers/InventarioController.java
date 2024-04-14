@@ -61,9 +61,9 @@ public class InventarioController {
         return new ResponseEntity<>(inventarioService.eliminar(id), HttpStatus.OK);
     }
 
-    @GetMapping("/generar-pdf")
-    public ResponseEntity<byte[]> generarPDF() throws Exception {
-        List<?> lista1 = inventarioRepository.listAll();
+    @GetMapping("/generar-pdf/{idTipoProducto}")
+    public ResponseEntity<byte[]> generarPDF(@PathVariable Long idTipoProducto) throws Exception {
+        List<?> lista1 = inventarioService.listTipoProducto(idTipoProducto);
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lista1);
         Map<String,Object> parameters = new HashMap<>();
         String rutaJRXML = "/reports/reporteInventario.jrxml";

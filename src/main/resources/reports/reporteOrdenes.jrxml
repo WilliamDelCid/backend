@@ -109,7 +109,8 @@
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font size="10" isBold="true"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{fechaFinalizacion}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{fechaFinalizacion} != null ? $F{fechaFinalizacion} : ""]]></textFieldExpression>
+
             </textField>
             <textField>
                 <reportElement x="480" y="0" width="81" height="20" uuid="bf564346-f0ac-4792-8fbd-0efa626b43ac"/>
