@@ -9,7 +9,6 @@ public record ProduccionDto(
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDate fechaIngreso,
 
-        boolean lineaProduccion,
-        boolean estadoProduccion
+        boolean lineaProduccion
 ) {
 }

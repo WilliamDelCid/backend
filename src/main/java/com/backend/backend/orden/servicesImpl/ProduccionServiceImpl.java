@@ -39,7 +39,7 @@ public class ProduccionServiceImpl implements ProduccionService {
             produccion.setOrdenPedido(ordenPedido);
             produccion.setFechaIngreso(produccionDto.fechaIngreso());
             produccion.setLineaProduccion(produccionDto.lineaProduccion());
-            produccion.setEstadoProduccion(produccionDto.estadoProduccion());
+            produccion.setEstadoProduccion(false);
             produccionRepository.save(produccion);
             return new Mensaje("Produccion guardada con exito.");
     }
