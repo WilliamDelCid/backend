@@ -15,6 +15,6 @@ public interface ProduccionRepository extends JpaRepository<Produccion,Long> {
 
     @Query(value = "SELECT p.id_orden AS idOrden, c.nombre_cliente AS nombreCliente, DATE_FORMAT(op.fecha_esperada, '%d-%m-%Y') AS fechaEsperada, DATE_FORMAT(p.fecha_ingreso, '%d-%m-%Y') AS fechaIngresoProduccion, DATE_FORMAT(p.fecha_finalizacion, '%d-%m-%Y') AS fechaFinalizacion, CASE p.estado_produccion WHEN 0 THEN 'En producción' WHEN 1 THEN 'Finalizado' ELSE 'Estado desconocido' END AS estado FROM tb_produccion p INNER JOIN tb_orden_producto op ON p.id_orden = op.id_orden INNER JOIN tb_cliente c ON c.id_cliente = op.id_cliente WHERE (:estado IS NULL OR p.estado_produccion = :estado) AND (:fechaEsperada IS NULL OR op.fecha_esperada = :fechaEsperada)",nativeQuery = true)
     List<ConsultaOrdenesDto> findByEstadoAndFechaEsperada(@Param("estado") Integer estado, @Param("fechaEsperada") Date fechaEsperada);
-
+    boolean existsByOrdenPedidoId(Long ordenPedidoId);
 
 }

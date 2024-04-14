@@ -37,16 +37,27 @@ public class ProduccionServiceImpl implements ProduccionService {
 
     @Override
     public Mensaje save(ProduccionDto produccionDto) {
-            Produccion produccion = new Produccion();
-            OrdenPedido ordenPedido = ordenPedidoRepository.findById(produccionDto.idOrdenPedido())
-                    .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Order no encontrada"));
-            produccion.setOrdenPedido(ordenPedido);
-            produccion.setFechaIngreso(produccionDto.fechaIngreso());
-            produccion.setLineaProduccion(produccionDto.lineaProduccion());
-            produccion.setEstadoProduccion(false);
-            produccionRepository.save(produccion);
-            return new Mensaje("Produccion guardada con exito.");
+        Produccion produccion = new Produccion();
+
+        if (produccionRepository.existsByOrdenPedidoId(produccionDto.idOrdenPedido())) {
+            throw new CustomException(HttpStatus.CONFLICT, "La orden ya existe en la producción");
+        }
+
+        OrdenPedido ordenPedido = ordenPedidoRepository.findById(produccionDto.idOrdenPedido())
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Orden no encontrada"));
+
+        ordenPedido.setEstadoOrden(1);
+        produccion.setOrdenPedido(ordenPedido);
+        produccion.setFechaIngreso(produccionDto.fechaIngreso());
+        produccion.setLineaProduccion(produccionDto.lineaProduccion());
+        produccion.setEstadoProduccion(false);
+
+        ordenPedidoRepository.save(ordenPedido);
+        produccionRepository.save(produccion);
+
+        return new Mensaje("Producción guardada con éxito.");
     }
+
 
     @Override
     public Mensaje finalizarProduccion(Long id, ProduccionFinalizadaDto produccionFinalizadaDto) {
@@ -59,11 +70,13 @@ public class ProduccionServiceImpl implements ProduccionService {
         produccion.setFechaFinalizacion(produccionFinalizadaDto.fechaFinalizacion());
         produccion.setEstadoProduccion(true);
         OrdenPedido ordenPedido = produccion.getOrdenPedido();
+        ordenPedido.setEstadoOrden(2);
         Inventario inventario = ordenPedido.getInventario();
         int cantidadSumar = ordenPedido.getCantidadProducto();
         int cantidadExistente = inventario.getCantidadProducto();
         int nuevoValorInventario = cantidadExistente + cantidadSumar;
         inventario.setCantidadProducto(nuevoValorInventario);
+        ordenPedidoRepository.save(ordenPedido);
         inventarioRepository.save(inventario);
         produccionRepository.save(produccion);
         return new Mensaje("Producción finalizada con éxito.");

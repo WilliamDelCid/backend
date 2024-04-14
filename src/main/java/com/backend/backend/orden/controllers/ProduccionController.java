@@ -3,7 +3,6 @@ package com.backend.backend.orden.controllers;
 import com.backend.backend.orden.dto.ProduccionDto;
 import com.backend.backend.orden.dto.ProduccionFinalizadaDto;
 import com.backend.backend.orden.entities.Produccion;
-import com.backend.backend.orden.repositories.ProduccionRepository;
 import com.backend.backend.orden.services.ProduccionService;
 import com.backend.backend.security.dto.Mensaje;
 import com.backend.backend.utils.PdfUtils;
@@ -14,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -27,27 +27,30 @@ import java.util.Map;
 public class ProduccionController {
 
     private final ProduccionService produccionService;
-    private final ProduccionRepository produccionRepository;
     private final PdfUtils pdfUtils;
 
     @PostMapping("/guardar")
+    @PreAuthorize("hasRole('PRODUCCION')")
     public ResponseEntity<Mensaje> guardarProduccion(@RequestBody ProduccionDto produccionDto) {
         Mensaje mensaje = produccionService.save(produccionDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(mensaje);
     }
 
     @GetMapping("/listar")
+    @PreAuthorize("hasRole('PRODUCCION')")
     public ResponseEntity<Page<Produccion>> listarProducciones(Pageable pageable) {
         Page<Produccion> producciones = produccionService.listAll(pageable);
         return ResponseEntity.ok(producciones);
     }
 
     @PutMapping("/{id}/finalizar")
+    @PreAuthorize("hasRole('PRODUCCION')")
     public Mensaje finalizarProduccion(@PathVariable Long id, @RequestBody ProduccionFinalizadaDto produccionFinalizadaDto) {
         return produccionService.finalizarProduccion(id, produccionFinalizadaDto);
     }
 
     @GetMapping("/generar-pdf")
+    @PreAuthorize("hasRole('PRODUCCION')")
     public ResponseEntity<byte[]> generarPDF(@RequestParam(value = "estado", required = false) Integer estado,
                                              @RequestParam(value = "fechaEsperada", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaEsperada) throws Exception {
         List<?> lista1;

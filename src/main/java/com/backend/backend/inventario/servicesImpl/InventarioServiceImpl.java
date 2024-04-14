@@ -89,7 +89,7 @@ public class InventarioServiceImpl implements InventarioService {
 
     @Override
     public List<Inventario> listTipo(Long idTipoProducto) {
-        return inventarioRepository.findByTipoProductoIdAndProductoIsTrue(idTipoProducto);
+        return inventarioRepository.findByTipoProductoIdAndProductoIsFalse(idTipoProducto);
     }
 
     @Override

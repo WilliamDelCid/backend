@@ -57,7 +57,7 @@ public class OrdenPedidoServiceImpl implements OrdenPedidoService {
                 .anyMatch(detalleDto -> Objects.equals(detalleDto.idInventario(), idInventarioOrden));
 
         if (existeIdInventarioEnDetalles) {
-            throw new CustomException(HttpStatus.CONFLICT, "El idInventario de la orden de pedido no puede estar presente en los detalles de materia prima");
+            throw new CustomException(HttpStatus.CONFLICT, "El producto de la orden de pedido no puede estar presente en los detalles de materia prima");
         }
         Inventario inventarioEncontrado = inventarioRepository.findById(ordenPedidoDto.idInventario()).orElseThrow(() -> new CustomException(HttpStatus.CONFLICT, "No se encontro registro con ese ID"));
         ordenPedido.setInventario(inventarioEncontrado);
@@ -101,14 +101,15 @@ public class OrdenPedidoServiceImpl implements OrdenPedidoService {
         return ordenPedidoRepository.findAll();
     }
 
-
     private boolean verificarDisponibilidadInventario(OrdenPedidoDto ordenPedidoDto) {
-        Inventario inventario = inventarioRepository.findById(ordenPedidoDto.idInventario())
-                .orElseThrow(() -> new CustomException(HttpStatus.CONFLICT, "No se encontró registro con ese ID"));
-        return inventario.getCantidadProducto() >= ordenPedidoDto.detallesMateriaPrima().stream()
-                .mapToInt(DetalleMateriaPrimaDto::cantidad)
-                .sum();
+        return ordenPedidoDto.detallesMateriaPrima().stream()
+                .allMatch(detalle -> {
+                    Inventario inventario = inventarioRepository.findById(detalle.idInventario())
+                            .orElseThrow(() -> new CustomException(HttpStatus.CONFLICT, "No se encontró registro con ese ID"));
+                    return inventario.getCantidadProducto() >= detalle.cantidad();
+                });
     }
+
 
 
 }
