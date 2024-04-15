@@ -20,7 +20,7 @@ public interface InventarioRepository extends JpaRepository<Inventario,Long> {
     List<ConsultaInventarioDto> listAll(@Param("tipoProducto") long tipoProducto);
 
 
-    List<Inventario> findByTipoProductoIdAndProductoIsFalse(Long tipoProductoId);
+    List<Inventario> findByTipoProductoIdAndProductoFalseAndEstadoProductoTrue(Long tipoProductoId);
 
     List<Inventario> findByEstadoProductoTrue();
 
